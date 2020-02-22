@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -67,7 +68,7 @@ public class App {
 	}
 
 	public static String getXMLRecord() {
-		String XMLString = "<data>";
+		String XMLString = "<data>" + LINE;
 		HashMap<String, String> data = new HashMap<String, String>();
 		data.put("usrn", "913333");
 		data.put("name", "North Street");
@@ -76,11 +77,13 @@ public class App {
 		data.put("county", "Scotland");
 		data.put("descriptionStyle", "UK");
 
-		for (Map.Entry<String, String> entity : data.entrySet()) {
-			XMLString += "<field>" + LINE;
-			XMLString += "<key>" + entity.getKey() + "</key>" + LINE;
-			XMLString += "<value>" + entity.getValue() + "</value>" + LINE;
-			XMLString += "</field>" + LINE;
+		Map<String, String> treeMap = new TreeMap<String, String>(data);
+
+		for (Map.Entry<String, String> entity : treeMap.entrySet()) {
+			XMLString += TAB + "<field>" + LINE;
+			XMLString += TAB + TAB + "<key>" + entity.getKey() + "</key>" + LINE;
+			XMLString += TAB + TAB + "<value>" + entity.getValue() + "</value>" + LINE;
+			XMLString += TAB + "</field>" + LINE;
 		}
 		XMLString += "</data>";
 		return XMLString;
