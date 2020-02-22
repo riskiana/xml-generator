@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +36,6 @@ public class App {
 
 		JAXBContext jaxBContent = null;
 		Marshaller marshaller = null;
-		StringWriter stringWriter = new StringWriter();
 
 		CustomMap map = new CustomMap();
 		System.out.println(getXMLRecord());
@@ -62,7 +63,8 @@ public class App {
 		jaxBContent = JAXBContext.newInstance(map.getClass());
 		marshaller = jaxBContent.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.marshal(map, sb);
+		JAXBElement jaxbElement = new JAXBElement(new QName("street"), map.getClass(), map);
+		marshaller.marshal(jaxbElement, sb);
 
 		System.out.println(sb.toString());
 	}
